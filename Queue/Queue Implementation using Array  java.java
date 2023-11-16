@@ -1,39 +1,70 @@
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-class Solution {
-    public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode temp = new ListNode();
-        temp.next = head;
-        ListNode fast = temp;
-        ListNode slow = temp;
-        if(head.next==null && n==1){
-            return null;
-        }
-        for(int i=1;i<=n;i++)
-            fast = fast.next;
+package Queue_Implementation;
 
-        while(fast.next!=null){
-            fast = fast.next;
-            slow = slow.next;
-        }
-        slow.next = slow.next.next;
-        return temp.next;
-    }
-    int getSize(ListNode head){
-        int count =0;
-        ListNode temp = head;
-        while(temp!=null){
-            count++;
-            temp = temp.next;
-            }
-            return count;
-    }
+public class Queue_Implementation_using_Array {
+
+	private int[] data;
+	private static final int DEFAULT_SIZE = 100;
+	int end = 0;
+
+	public Queue_Implementation_using_Array() {
+		this(DEFAULT_SIZE);
+	}
+
+	public Queue_Implementation_using_Array(int size) {
+		this.data = new int[size];
+	}
+
+	public boolean isFull() {
+		return end == data.length;
+	}
+
+	public boolean isEmpty() {
+		return end == 0;
+	}
+
+	public boolean insert(int item) {
+		if (isFull()) {
+			return false;
+		}
+		data[end++] = item;
+		return true;
+	}
+
+	public int remove() throws Exception {
+		if (isEmpty()) {
+			throw new Exception("Queue is empty");
+		}
+		int del = data[0];
+		for (int i = 1; i < end; i++) {
+			data[i - 1] = data[i];
+		}
+		end--;
+		return del;
+	}
+
+	public int front() throws Exception {
+		if (isEmpty()) {
+			throw new Exception("Empty");
+		}
+		return data[0];
+	}
+
+	public void display() {
+		for (int i = 0; i < end; i++) {
+			System.out.print(data[i] + "->");
+		}
+		System.out.println("END");
+	}
+	
+
+	public static void main(String[] args) throws Exception {
+		Queue_Implementation_using_Array queue = new Queue_Implementation_using_Array();
+		queue.insert(34);
+		queue.insert(44);
+		queue.insert(33);
+		queue.insert(90);
+		queue.display();
+		queue.remove();
+		queue.display();
+	}
 }
